@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const apiUrl = 'http://localhost:3000';
+      let token = localStorage.getItem('token');
+
+      function fetchStudents() {
+        $.ajax({
+          url: `${apiUrl}/students`,
+          type: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` },
+          success: function (students) {
+            $('#studentList').empty();
+            students.forEach(student => {
+              $('#studentList').append(`
+                <tr>
+                  <td>${student.name}</td>
+                  <td>${student.age}</td>
+                  <td>${student.grade}</td>
+                </tr>
+              `);
+            });
+          }
+        });
+      }
+
+      fetchStudents();
+
+      $('#studentForm').submit(function (e) {
+        e.preventDefault();
+        const student = {
+          name: $('#name').val(),
+          age: parseInt($('#age').val(),10),
+          grade: $('#grade').val()
+        };
+        $.ajax({
+          url: `http://localhost:3000/students`,
+          type: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          contentType: 'application/json',
+          data: JSON.stringify(student),
+          success: function () {
+            fetchStudents();
+            $('#studentForm')[0].reset();
+          }
+        });
+      });
+
+      $('#logout').click(function () {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="student-navbar">
+    <h1>Student Management</h1>
+    <button id="logout">Logout</button>
+  </div>
+  
+  <h2>Student List</h2>
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody id="studentList">
+      <!-- Rows will be populated here -->
+    </tbody>
+  </table>
+  <h2>Add Student</h2>
+  <form id="studentForm">
+    <input type="text" id="name" placeholder="Name" >
+    <input type="number" id="age" placeholder="Age" >
+    <input type="text" id="grade" placeholder="Grade" >
+    <button type="submit">Add Student</button>
+  </form>
+</body>
+</html>

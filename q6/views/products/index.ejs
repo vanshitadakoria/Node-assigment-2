@@ -1,0 +1,38 @@
+<%- include('../layout') %>
+<h1>Products</h1>
+<a href="/products/addProduct">Add New Product</a>
+<table >
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Images</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% products.forEach(product => { %>
+            <tr>
+                <td><%= product.name %></td>
+                <td><%= product.price %></td>
+                <td><%= product.category ? product.category.name : 'Uncategorized' %></td>
+                <td>
+                    <% if (product.images.length > 0) { %>
+                        <% product.images.forEach(image => { %>
+                            <img src="<%= image %>" alt="<%= product.name %>" width="100">
+                        <% }) %>
+                    <% } else { %>
+                        No images
+                    <% } %>
+                </td>
+                <td>
+                    <a href="/products/<%= product._id %>/editProduct">Edit</a>
+                    <form action="/products/<%= product._id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

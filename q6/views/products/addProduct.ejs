@@ -1,0 +1,21 @@
+<%- include('../layout') %>
+<h1>New Product</h1>
+<form action="/products" method="POST" enctype="multipart/form-data">
+    <label for="name">Product Name:</label>
+    <input type="text" name="name" id="name" required>
+    <br><br>
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="price" required>
+    <br><br>
+    <label for="category">Category:</label>
+    <select name="category" id="category" required>
+        <% categories.forEach(cat => { %>
+            <option value="<%= cat._id %>"><%= cat.name %></option>
+        <% }) %>
+    </select>
+    <br><br>
+    <label for="images">Images:</label>
+    <input type="file" name="images" id="images" multiple>
+    <br><br>
+    <button type="submit">Add Product</button>
+</form>

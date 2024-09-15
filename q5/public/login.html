@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const apiUrl = 'http://localhost:3000';
+
+      $('#loginForm').submit(function (e) {
+        e.preventDefault();
+        $.post(`${apiUrl}/auth/login`, {
+          username: $('#username').val(),
+          password: $('#password').val()
+        }, function (data) {
+          localStorage.setItem('token', data.token);
+          window.location.href = '/index.html';
+        }).fail(function () {
+          alert('Login failed');
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="/register.html">Register here</a></p>
+</body>
+</html>

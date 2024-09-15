@@ -1,0 +1,24 @@
+<%- include('../layout') %>
+<h1>Categories</h1>
+<a href="/categories/addCategory">Add New Category</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% categories.forEach(category => { %>
+            <tr>
+                <td><%= category.name %></td>
+                <td>
+                    <a href="/categories/<%= category._id %>/editCategory">Edit</a>
+                    <form action="/categories/<%= category._id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

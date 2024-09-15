@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const apiUrl = 'http://localhost:3000';
+
+      $('#registerForm').submit(function (e) {
+        e.preventDefault();
+        $.post(`${apiUrl}/auth/register`, {
+          username: $('#username').val(),
+          password: $('#password').val()
+        }, function () {
+          window.location.href = '/login.html';
+        }).fail(function () {
+          alert('Registration failed');
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Register</h1>
+  <form id="registerForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Register</button>
+  </form>
+  <h5>Already have an account? <a href="/login.html">Login here</a></h5>
+</body>
+</html>
